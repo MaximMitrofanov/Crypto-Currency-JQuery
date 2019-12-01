@@ -3,14 +3,14 @@ var coin_sub = 0;
 var subbed_arr = [];
 
 
-window.onload = function () {
+$(document).ready(function () {
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list", success: function (result) {
             result_arr = result;
             buildCard(result, 100);
         }
     });
-}
+});
 
 
 
@@ -83,10 +83,23 @@ searchCoin = () => {
 
 subToCoin = (id) => {
     let toggle_btn = $(`.${id}.toggle`);
-    console.log(toggle_btn[0].checked)
     if (toggle_btn[0].checked) {
         if (coin_sub == 5) {
             toggle_btn[0].checked = false;
+            $('#modalButton').click()
+            let modal = $('.modal-body');
+            modal.html('')
+            for (i = 0; i < subbed_arr.length; i++) {
+                modal.append(`
+                    <div class='row modal-style'>
+                    <div class='col-md-3 in-modal'>${subbed_arr[i].symbol}</div>
+                    <label class="switch in-modal">
+                        <input class='toggle ${subbed_arr[i].id}' checked type="checkbox" value='false' onchange='subToCoin("${subbed_arr[i].id}")'>
+                        <span class="slider round"></span>
+                    </label>
+                    </div>
+                `)
+            }
             return
         }
         for (let i = 0; i < result_arr.length; i++) {
@@ -112,9 +125,12 @@ goTo = (where) => {
     where == 'about' ? buildAbout() : null;
 }
 
+
 buildGraph = () => {
     console.log('Graphs')
 }
+
+
 buildAbout = () => {
     console.log('About')
 }

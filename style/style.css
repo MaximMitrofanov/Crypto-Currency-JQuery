@@ -94,3 +94,24 @@ body{
     margin: auto;
     border-radius: 50%;
   }
+
+  .modal-style{
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .modal-content{
+    max-width: 70%;
+    margin: auto;
+  }
+
+  label.switch.in-modal{
+    margin-bottom: 0;
+    margin: auto 0;
+    line-height: 28px; 
+  }
+  div.in-modal{
+    text-align: center;
+    vertical-align: middle;
+  }
