@@ -2,7 +2,9 @@ body{
     background-color: rgb(173, 173, 173);
 }
 
-
+.nav-link:hover{
+  cursor: pointer;
+}
 
 
 .switch {

@@ -1,25 +1,29 @@
+var result_arr = [];
+var coin_sub = 0;
+var subbed_arr = [];
 
 
 window.onload = function () {
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list", success: function (result) {
-            console.log(result)
-            buildCard(result);
+            result_arr = result;
+            buildCard(result, 100);
         }
     });
 }
 
 
 
-buildCard = (result) => {
-    for (let i = 0; i < 100; i++) {
+buildCard = (result, amount) => {
+    $('.content').html('')
+    for (let i = 0; i < amount; i++) {
         $('.content').append(`
         <div class='col-md-3'>
             <div class="card text-white bg-dark mb-1 mt-1 pl-1 pr-1">
                 <div class="card-header">
                     <span>${result[i].symbol}</span>
                     <label class="switch">
-                        <input type="checkbox">
+                        <input class='toggle ${result[i].id}' type="checkbox" value='false' onchange='subToCoin("${result[i].id}")'>
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -46,7 +50,7 @@ showInfo = (id) => {
         $.ajax({
             url: `https://api.coingecko.com/api/v3/coins/${id}`, success: function (result) {
                 $(`.${id}.moreinfo`).html(
-                `
+                    `
                 <img src="${result.image.large}" class="coin-icon mb-3" alt="">
                 <div class='ml-1 mt-2' >USD Worth: ${result.market_data.current_price.usd}$</div>
                 <div class='ml-1 mt-2'>EUR Worth: ${result.market_data.current_price.eur}$</div>
@@ -58,6 +62,59 @@ showInfo = (id) => {
             }
         });
     }
-    
+}
 
+
+searchCoin = () => {
+    event.preventDefault()
+    let searched = $('#search_input').val();
+    let found = [];
+    if (searched == '') { buildCard(result_arr, 100); return }
+    for (let i = 0; i < result_arr.length; i++) {
+        if (result_arr[i].symbol == searched) {
+            found.push(result_arr[i])
+            buildCard(found, 1)
+            return
+        }
+    }
+    alert(`Couldn't find ${searched}`)
+}
+
+
+subToCoin = (id) => {
+    let toggle_btn = $(`.${id}.toggle`);
+    console.log(toggle_btn[0].checked)
+    if (toggle_btn[0].checked) {
+        if (coin_sub == 5) {
+            toggle_btn[0].checked = false;
+            return
+        }
+        for (let i = 0; i < result_arr.length; i++) {
+            if (result_arr[i].id == id) {
+                subbed_arr.push(result_arr[i])
+
+            }
+        }
+        ++coin_sub
+    } else {
+        for (let i = 0; i < subbed_arr.length; i++) {
+            if (subbed_arr[i].id == id) {
+                subbed_arr.splice(i, 1)
+            }
+        }
+        --coin_sub
+    }
+}
+
+goTo = (where) => {
+    where == 'home' ? buildCard(result_arr, 100) : null;
+    where == 'graphs' ? buildGraph() : null;
+    where == 'about' ? buildAbout() : null;
+}
+
+buildGraph = () => {
+    console.log('Graphs')
+}
+buildAbout = () => {
+    console.log('About')
 }
