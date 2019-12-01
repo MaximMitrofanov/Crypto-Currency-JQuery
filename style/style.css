@@ -7,7 +7,7 @@ body{
 
 .switch {
     position: relative;
-    display: inline-block;
+    display: block;
     width: 40px;
     height: 23px;
     float: right;
@@ -63,5 +63,32 @@ body{
   }
   
   .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .card{
+      padding-left: 1rem;
+  }
+
+  .card-button{
+      max-width: 10rem;;
+      margin: auto;
+      margin-bottom: .5rem;
+  }
+
+  .card-header{
+      font-size: 1rem;
+  }
+
+  .loadimg{
+      max-width: 5rem;
+      display: block;
+      margin: auto;
+  }
+
+  .coin-icon{
+    max-width: 5rem;
+    display: block;
+    margin: auto;
     border-radius: 50%;
   }
