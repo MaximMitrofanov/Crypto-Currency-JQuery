@@ -94,21 +94,23 @@ subToCoin = (id) => {
                     <div class='row modal-style'>
                     <div class='col-md-3 in-modal'>${subbed_arr[i].symbol}</div>
                     <label class="switch in-modal">
-                        <input class='toggle ${subbed_arr[i].id}' checked type="checkbox" value='false' onchange='subToCoin("${subbed_arr[i].id}")'>
+                        <input class='toggle-in-modal ${subbed_arr[i].id}' checked type="checkbox" value='false' onchange='subToCoin("${subbed_arr[i].id}")'>
                         <span class="slider round"></span>
                     </label>
                     </div>
                 `)
             }
             return
-        }
-        for (let i = 0; i < result_arr.length; i++) {
-            if (result_arr[i].id == id) {
-                subbed_arr.push(result_arr[i])
+        } else {
+            for (let i = 0; i < result_arr.length; i++) {
+                if (result_arr[i].id == id) {
+                    subbed_arr.push(result_arr[i])
 
+                }
             }
+            ++coin_sub
         }
-        ++coin_sub
+
     } else {
         for (let i = 0; i < subbed_arr.length; i++) {
             if (subbed_arr[i].id == id) {
@@ -116,6 +118,7 @@ subToCoin = (id) => {
             }
         }
         --coin_sub
+        console.log(coin_sub)
     }
 }
 
