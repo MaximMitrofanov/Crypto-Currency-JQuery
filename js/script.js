@@ -109,7 +109,7 @@ subToCoin = (id) => {
     if (toggle_btn[0].checked) {
         if (coin_sub == 5) {
             toggle_btn[0].checked = false;
-            $('#modalButton').click()
+            $('#myModal').modal('show')
             let modal = $('.modal-body');
             modal.html('')
             for (i = 0; i < subbed_arr.length; i++) {
@@ -123,6 +123,9 @@ subToCoin = (id) => {
                     </div>
                 `)
             }
+            $('#modalBtn').on('click', ()=>{
+                
+            })
             return
         }
         for (let i = 0; i < result_arr.length; i++) {
