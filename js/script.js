@@ -40,6 +40,8 @@ buildCard = (result, amount) => {
 }
 
 showInfo = (id) => {
+    let result_obj = [];
+    let today = new Date();
     if ($(`.${id}.btn`).html() == 'Show less') {
         $(`.${id}.btn`).html('Show more')
         $(`.${id}.moreinfo`).html('')
@@ -47,21 +49,42 @@ showInfo = (id) => {
     else {
         $(`.${id}.moreinfo`).html('<img src="assets/loading.gif" class="loadimg" alt="">')
         $(`.${id}.btn`).addClass('disabled')
-        $.ajax({
-            url: `https://api.coingecko.com/api/v3/coins/${id}`, success: function (result) {
-                $(`.${id}.moreinfo`).html(
-                    `
-                <img src="${result.image.large}" class="coin-icon mb-3" alt="">
-                <div class='ml-1 mt-2' >USD Worth: ${result.market_data.current_price.usd}$</div>
-                <div class='ml-1 mt-2'>EUR Worth: ${result.market_data.current_price.eur}$</div>
-                <div class='ml-1 mt-2 mb-2'>ILS Worth: ${result.market_data.current_price.ils}$</div>
-                `
-                )
-                $(`.${id}.btn`).removeClass('disabled')
-                $(`.${id}.btn`).html('Show less');
-            }
-        });
+        result_obj = JSON.parse(sessionStorage.getItem(id));
+        if (result_obj && result_obj.date - today.getTime() <= 120000) {
+            buildMoreInfo(result_obj, id);
+        } else {
+            sessionStorage.removeItem(id);
+            $.ajax({
+                url: `https://api.coingecko.com/api/v3/coins/${id}`, success: function (result) {
+                    result_obj = {
+                        id: result.id,
+                        usd_price: result.market_data.current_price.usd,
+                        eur_price: result.market_data.current_price.eur,
+                        ils_price: result.market_data.current_price.ils,
+                        img: result.image.large,
+                        date: today.getTime(),
+                    }
+
+                    sessionStorage.setItem(result_obj.id, JSON.stringify(result_obj));
+                    buildMoreInfo(result_obj, id);
+                }
+            });
+        }
     }
+
+}
+
+buildMoreInfo = (item, id) => {
+    $(`.${id}.moreinfo`).html(
+        `
+    <img src="${item.img}" class="coin-icon mb-3" alt="">
+    <div class='ml-1 mt-2' >USD Worth: ${item.usd_price}$</div>
+    <div class='ml-1 mt-2'>EUR Worth: ${item.eur_price}$</div>
+    <div class='ml-1 mt-2 mb-2'>ILS Worth: ${item.ils_price}$</div>
+    `
+    )
+    $(`.${id}.btn`).removeClass('disabled')
+    $(`.${id}.btn`).html('Show less');
 }
 
 
