@@ -50,7 +50,7 @@ showInfo = (id) => {
         $(`.${id}.moreinfo`).html('<img src="assets/loading.gif" class="loadimg" alt="">')
         $(`.${id}.btn`).addClass('disabled')
         result_obj = JSON.parse(sessionStorage.getItem(id));
-        if (result_obj && result_obj.date - today.getTime() <= 120000) {
+        if (result_obj && (today.getTime() - result_obj.date) <= 120000) {
             buildMoreInfo(result_obj, id);
         } else {
             sessionStorage.removeItem(id);
