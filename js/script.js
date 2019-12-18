@@ -1,13 +1,16 @@
 var result_arr = [];
 var coin_sub = 0;
 var subbed_arr = [];
+var new_subbed_arr = [];
 
+$('body').append('<div class="popout"><div class="loadimg-wrapper"><img src="assets/loading.gif" class="loadimg-popout" alt=""></div></div>')
 
 $(document).ready(function () {
     $.ajax({
-        url: "https://api.coingecko.com/api/v3/coins/list", success: function (result) {
+        url: "https://api.coingecko.com/api/v3/coins/list", success: (result) => {
             result_arr = result;
             buildCard(result, 100);
+            $('.popout').remove();
         }
     });
 });
@@ -112,19 +115,30 @@ subToCoin = (id) => {
             $('#myModal').modal('show')
             let modal = $('.modal-body');
             modal.html('')
+
             for (i = 0; i < subbed_arr.length; i++) {
+                new_subbed_arr.push(subbed_arr[i]);
                 modal.append(`
                     <div class='row modal-style'>
                     <div class='col-md-3 in-modal'>${subbed_arr[i].symbol}</div>
                     <label class="switch in-modal">
-                        <input class='toggle-in-modal ${subbed_arr[i].id}' checked type="checkbox" value='false' onchange='subToCoin("${subbed_arr[i].id}")'>
+                        <input class='toggle-in-modal' checked type="checkbox" value='false' onchange='modalSub("${subbed_arr[i].id}")'>
                         <span class="slider round"></span>
                     </label>
                     </div>
                 `)
             }
-            $('#modalBtn').on('click', ()=>{
-                
+            $('#modalBtn').on('click', () => {
+                modal.html = '';
+                $('#myModal').modal('hide')
+                let filterout = subbed_arr.filter(function (item) {
+                    return !new_subbed_arr.includes(item);
+                });
+                filterout.map(item =>{
+                    $(`.${item.id}.toggle`)[0].checked = false;
+                })
+                subbed_arr = new_subbed_arr;
+                new_subbed_arr = [];
             })
             return
         } else {
@@ -146,6 +160,23 @@ subToCoin = (id) => {
         --coin_sub
         console.log(coin_sub)
     }
+}
+
+modalSub = (id) => {
+    let found = false;
+    for (let i = 0; i < new_subbed_arr.length; i++) {
+        if (new_subbed_arr[i].id == id) {
+            new_subbed_arr.splice(i, 1);
+            found = true;
+            break
+        }
+    }
+    if (!found) {
+        for (let i = 0; i < subbed_arr.length; i++) {
+            if (subbed_arr[i].id == id) new_subbed_arr.push(subbed_arr[i])
+        }
+    }
+
 }
 
 goTo = (where) => {
