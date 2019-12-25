@@ -150,3 +150,31 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.about_img{
+  border-radius: 50%;
+  max-width: 100%;
+  position: absolute;
+  top: 10;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.about_img_wrapper{
+  padding: auto auto;
+}
+
+#aboutContainer {
+  background-color: rgb(80, 80, 80);
+  color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0;
+}
+
+#homeContainer, #chartContainer{
+  margin: 0;
+}

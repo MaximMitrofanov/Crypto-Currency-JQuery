@@ -63,21 +63,23 @@ var options = {
 
 
 
-
+$('.parallax').hide()
 $(document).ready(function () {
     loadingPage()
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list", success: (result) => {
             result_arr = result;
             buildCard(result, 100);
-            loadingPage('done')
         }
     });
+    $("#chartContainer").empty().hide();
+    $('#aboutContainer').empty().hide();
 });
 
 
 
 buildCard = (result, amount) => {
+    $('#homeContainer').empty().show();
     for (let i = 0; i < amount; i++) {
         $('#homeContainer').append(`
         <div class='col-md-3'>
@@ -98,6 +100,8 @@ buildCard = (result, amount) => {
         </div>
     `)
     }
+    $('.parallax').show()
+    loadingPage('done')
 }
 
 checkArray = (symbol) => {
@@ -158,6 +162,7 @@ buildMoreInfo = (item, id) => {
 
 
 searchCoin = () => {
+    goTo('home');
     event.preventDefault()
     let searched = $('#search_input').val();
     let found = [];
@@ -244,6 +249,7 @@ saveChange = () => {
 }
 
 startGraph = () => {
+    $("#chartContainer").show()
     seconds = 0;
     let searchID = recieveID()
     options.data.forEach(item => {
@@ -264,7 +270,6 @@ startGraph = () => {
         });
     }, 2000);
 }
-
 newData = (result, name) => {
     for (let i = 0; i < result.length; i++) {
         options.data[i].name = name[i];
@@ -285,9 +290,12 @@ recieveID = () => {
 
 
 goTo = (where) => {
+    loadingPage()
     if (chartInterval) clearInterval(chartInterval);
-    $("#chartContainer").empty()
-    $('#homeContainer').empty()
+    $('.parallax').hide()
+    $("#chartContainer").empty().hide();
+    $('#homeContainer').empty().hide();
+    $('#aboutContainer').empty().hide();
     where == 'home' ? buildHome() : null;
     where == 'graphs' ? buildGraph() : null;
     where == 'about' ? buildAbout() : null;
@@ -298,14 +306,22 @@ buildHome = () => {
 }
 
 buildGraph = () => {
-    loadingPage()
     startGraph();
 }
 
 
 buildAbout = () => {
-    loadingPage()
-
+    $('#aboutContainer').html(`
+    <div class='col-2 mt-5 about_img_wrapper'>
+        <img src="assets/avatar.jpg" class="about_img mt-5 col-2"/>
+    </div>
+    <div class='about_info mt-5 col-10'>
+    <h3>Max Fanov</h3>
+    <br>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+    Animi vero quidem vel architecto ipsum nisi fugiat officiis, laboriosam quis voluptate?
+    </div>
+    `).show()
+    loadingPage('done')
 }
 
 loadingPage = (status) => {
