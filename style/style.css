@@ -178,3 +178,7 @@ body{
 #homeContainer, #chartContainer{
   margin: 0;
 }
+
+.canvasjs-chart-tooltip{
+  margin-bottom: 380px;
+}

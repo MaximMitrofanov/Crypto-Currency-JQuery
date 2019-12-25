@@ -1,8 +1,8 @@
 var result_arr = [];
+var new_subbed_arr = [];
 var coin_sub = 0;
 var chartInterval = false;
 var subbed_arr = [];
-var new_subbed_arr = [];
 var seconds = 0;
 var options = {
     animationEnabled: false,
@@ -62,7 +62,8 @@ var options = {
 };
 
 
-
+$("#chartContainer").empty().hide();
+$('#aboutContainer').empty().hide();
 $('.parallax').hide()
 $(document).ready(function () {
     loadingPage()
@@ -72,8 +73,6 @@ $(document).ready(function () {
             buildCard(result, 100);
         }
     });
-    $("#chartContainer").empty().hide();
-    $('#aboutContainer').empty().hide();
 });
 
 
@@ -249,12 +248,7 @@ saveChange = () => {
 }
 
 startGraph = () => {
-    $("#chartContainer").show()
-    seconds = 0;
     let searchID = recieveID()
-    options.data.forEach(item => {
-        item.dataPoints = [];
-    })
     chartInterval = setInterval(() => {
         $.ajax({
             url: `https://api.coingecko.com/api/v3/simple/price?ids=${searchID}&vs_currencies=usd`,
@@ -306,6 +300,8 @@ buildHome = () => {
 }
 
 buildGraph = () => {
+    $("#chartContainer").show()
+    seconds = 0;
     startGraph();
 }
 
