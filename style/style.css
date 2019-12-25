@@ -142,3 +142,11 @@ body{
     top: -50%; 
     z-index: 2000;
 }
+.parallax {
+  background-image: url("../assets/crypto.jpg");
+  height: 400px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

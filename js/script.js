@@ -311,5 +311,3 @@ buildAbout = () => {
 loadingPage = (status) => {
     status ? $('.popout').remove() : $('body').append('<div class="popout"><div class="loadimg-wrapper"><img src="assets/loading.gif" class="loadimg-popout" alt=""></div></div>')
 }
-
-
