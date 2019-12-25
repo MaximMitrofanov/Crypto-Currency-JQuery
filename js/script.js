@@ -253,8 +253,9 @@ startGraph = () => {
         $.ajax({
             url: `https://api.coingecko.com/api/v3/simple/price?ids=${searchID}&vs_currencies=usd`,
             success: function (result) {
-                let resultArray = Object.keys(result).map(i => result[i])
-                if (resultArray.length > 0) { newData(resultArray) }
+                let resultArray = Object.values(result);
+                let resultArrayKeys = Object.keys(result);
+                if (resultArray.length > 0) { newData(resultArray, resultArrayKeys) }
                 else {
                     $("#chartContainer").CanvasJSChart(options);
                     loadingPage('done');
@@ -264,9 +265,9 @@ startGraph = () => {
     }, 2000);
 }
 
-newData = (result) => {
-    for (let i = 0; i < subbed_arr.length; i++) {
-        options.data[i].name = subbed_arr[i].id;
+newData = (result, name) => {
+    for (let i = 0; i < result.length; i++) {
+        options.data[i].name = name[i];
         options.data[i].dataPoints.push({ x: seconds, y: result[i].usd });
     }
     $("#chartContainer").CanvasJSChart(options);
@@ -310,3 +311,5 @@ buildAbout = () => {
 loadingPage = (status) => {
     status ? $('.popout').remove() : $('body').append('<div class="popout"><div class="loadimg-wrapper"><img src="assets/loading.gif" class="loadimg-popout" alt=""></div></div>')
 }
+
+
