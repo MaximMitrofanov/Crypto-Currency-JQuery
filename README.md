@@ -6,7 +6,7 @@ Which includes 100 different loaded Crypto Currencies from an API which will be 
 
 • Graphs
 
-From 1-5 toggles that the client chose, it will keep tracking those with updates of every 10 seconds.
+The page will display all the coins that the client subbed to (up to 5), it will update every 2 seconds.
 
 • About
 
