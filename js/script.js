@@ -290,6 +290,10 @@ goTo = (where) => {
     $("#chartContainer").empty().hide();
     $('#homeContainer').empty().hide();
     $('#aboutContainer').empty().hide();
+    options.data.forEach(item =>{
+        item.name = '';
+        item.dataPoints = [];
+    })
     where == 'home' ? buildHome() : null;
     where == 'graphs' ? buildGraph() : null;
     where == 'about' ? buildAbout() : null;
